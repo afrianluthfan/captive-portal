@@ -25,7 +25,6 @@ const CaptivePortal: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFadeOut(false); // Reset fade-out state before submitting
-    setHideMessage(false); // Ensure the message is visible
 
     try {
       const response = await axios.post("/auth", {
@@ -34,9 +33,11 @@ const CaptivePortal: React.FC = () => {
       });
 
       if (response.data.success) {
+        setHideMessage(true); // Hide the error message
         window.location.href = "https://www.google.com"; // Redirect to Google after successful authentication
       } else {
         setErrorMessage("Username or password is incorrect"); // Set error message
+        setHideMessage(false); // Ensure the message is visible
         setUsername(""); // Clear username field
         setPassword(""); // Clear password field
 
